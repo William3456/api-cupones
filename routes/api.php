@@ -20,15 +20,8 @@ use App\Http\Controllers\CuponController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::post('/register', [UserController::class, 'register']);
-/*
-Route::get("getCuponById/{id}", [CuponController::class, "getCuponById"]);
-Route::put("actualizar-cupon/{id}", [CuponController::class, "updateCupon"]);*/
+
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('getCuponById/{id}', [CuponController::class, 'getCuponById']);
     Route::put('actualizar-cupon/{id}', [CuponController::class, 'updateCupon']);
 });
-
-
-Route::get('/check-token', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
