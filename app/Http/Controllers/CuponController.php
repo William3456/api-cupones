@@ -26,14 +26,16 @@ class CuponController extends Controller
             if ($cupon[0]->vencido != 0){
                 return response()->json([
                     'status' => 400,
+                    'msj' => 'Cupon vencido',
                     'body' => null,
-                    'msj' => 'Cupon vencido'
+
                 ]);
             }else if($cupon[0]->estado == 1){
                 return response()->json([
                     'status' => 400,
+                    'msj' => 'Cupon ya canjeado',
                     'body' => null,
-                    'msj' => 'Cupon ya canjeado'
+
                 ]);
             }else{
                 $cuponUpd = DB::table('cupones')
@@ -49,6 +51,7 @@ class CuponController extends Controller
         }else{
             return response()->json([
                 'status' => 404,
+                'msj' => 'cupon no encontrado',
                 'body' => $cupon
             ]);
         }
