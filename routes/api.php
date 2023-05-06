@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CuponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/register', [UserController::class, 'register']);
+/*
+Route::get("getCuponById/{id}", [CuponController::class, "getCuponById"]);
+Route::put("actualizar-cupon/{id}", [CuponController::class, "updateCupon"]);*/
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('getCuponById/{id}', [CuponController::class, 'getCuponById']);
+    Route::put('actualizar-cupon/{id}', [CuponController::class, 'updateCupon']);
 });
+
+
+Route::get('/check-token', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
